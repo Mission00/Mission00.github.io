@@ -1,0 +1,913 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-we81p6.jpg">
+  <link rel="icon" href="/img/wallhaven-we81p6.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="小雄不是大雄">
+  <meta name="keywords" content="Java">
+  
+    <meta name="description" content="这是摘要积分系统：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见的附近的人功能如何实现">
+<meta property="og:url" content="http://mission00.github.io/2022/11/19/2022-11-19-%E6%AF%8F%E6%97%A5%E4%B8%9A%E5%8A%A1%E5%8A%9E%E7%90%86%E5%BE%97%E7%A7%AF%E5%88%86/index.html">
+<meta property="og:site_name" content="小雄不是大雄">
+<meta property="og:description" content="这是摘要积分系统：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-19T14:55:52.818Z">
+<meta property="article:modified_time" content="2022-11-20T06:13:56.453Z">
+<meta property="article:author" content="小雄不是大雄">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>常见的附近的人功能如何实现 - 小雄不是大雄</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mission00.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小雄不是大雄</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="常见的附近的人功能如何实现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-19 22:55" pubdate>
+          2022年11月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">常见的附近的人功能如何实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>1、表设计</p>
+<p>我们可以设计一张积分详情表用于存储用户的每一个积分操作</p>
+<p>record_detail</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>UID</th>
+<th>record(积分)</th>
+<th>type（操作类型、 0：减少 1：增加）</th>
+<th>create_time</th>
+<th>expire_time</th>
+<th>operation（操作）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+<td>0</td>
+<td>20220101</td>
+<td></td>
+<td>消费</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>20</td>
+<td>1</td>
+<td>20220101</td>
+<td>20230101</td>
+<td>每日签到</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>20220101</td>
+<td>20230101</td>
+<td>每日签到</td>
+</tr>
+</tbody></table>
+<p>这样的设计比较简单，通过过滤过期时间求和就可以得出一个用户的积分，但是这样的设计将所有的积分全放一起，每次都得过滤大量的数据才能得到准确的积分。所有我们可以进行拆分</p>
+<p>这边我们依然保留积分详情表，不过此表的作用是用来提供用户查看积分详情</p>
+<p>record_detail</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>UID</th>
+<th>record(积分)</th>
+<th>type（操作类型、 0：减少 1：增加）</th>
+<th>create_time</th>
+<th>expire_time</th>
+<th>operation（操作）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+<td>0</td>
+<td>20220101</td>
+<td></td>
+<td>消费</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>20</td>
+<td>1</td>
+<td>20220101</td>
+<td>20230101</td>
+<td>每日签到</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>20220101</td>
+<td>20230101</td>
+<td>每日签到</td>
+</tr>
+</tbody></table>
+<p>user_record  引入一个用户积分表才保存每个用户的总积分，在对积分进行操作时同步更新这张表，多一步更新操作换来更快速的积分查询。</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>UID</th>
+<th>record(积分)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<p>不过我们的积分又存在过期行为，那么过期时也需要去更新user_record表，更新的操作可以想到1、利用定时任务每日扫描以便record_detail将过期的积分扣除 2、在用户登录时进行针对用户进行积分更新。方法1每天都需要对record_detail进行全表扫描消耗性能，随着积分数量增多，这个速度会越来越慢，方法2在用户登录时进行更新且将范围缩小至用户可以提升效率但是积分数据存在滞后性，用户不等录就不会去更新积分。</p>
+<p>这时候我们可以针对方法1和方法2  方法1的定时任务可以包装时效，方法2利用用户进行过滤减少扫描数据量  那么我们可以结合两种  依然采用定时任务，不过我们如何缩小扫描数据大小，那就将可用的积分抽取出来做为一张新表，将过期积分也当作对积分的操作，因为该表只存可用积分所有表的大小可控，定时任务保证积分的时效性.</p>
+<p>现在我们的系统有以下几张表。</p>
+<p>record_usable</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>UID</th>
+<th>record(积分)</th>
+<th>create_time</th>
+<th>expire_time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+<td>20220101</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>20</td>
+<td>20220101</td>
+<td>20230101</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>10</td>
+<td>20220101</td>
+<td>20230101</td>
+</tr>
+</tbody></table>
+<p>record_detail</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>UID</th>
+<th>record(积分)</th>
+<th>type（操作类型、 0：减少 1：增加）</th>
+<th>create_time</th>
+<th>expire_time</th>
+<th>operation（操作）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+<td>0</td>
+<td>20220101</td>
+<td></td>
+<td>消费</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>20</td>
+<td>1</td>
+<td>20220101</td>
+<td>20230101</td>
+<td>每日签到</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>20220101</td>
+<td>20230101</td>
+<td>每日签到</td>
+</tr>
+</tbody></table>
+<p>user_record  </p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>UID</th>
+<th>record(积分)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<p>积分的新增、删除、过期操作全部记入到record_detail表中，user_record用于保存用户的总积分数量，record_usable保存用户的可用积分。积分增加时只需要在record_detail表中新增具体操作，在record_usable中插入这条新积分（应该 不会有人让积分刚新增就过期吧）。积分过期需要利用定时任务去可用积分表中将过期的积分取出来，逐条过期，插入record_detail并更新user_record，该操作可用丢到消息队列中去异步完成。那么剩下消费积分该如何设计。积分的消费那需要判断当前用户的积分足部足够进行消费，积分足够时要如何选择需要消费积分，比如我现在需要对1号用户消费15积分，我们应该按照过期时间倒序去record_usable中取积分，判断积分是否满足，所以取到积分1，再取积分2时我们还需5积分，积分2为10积分，这时我们需要将积分2进行拆分，拆分成积分3：5积分，积分4：5积分，然后将积分1和积分3进行消费。大概代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span> page=<span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> <span class="hljs-variable">pageSize</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> <span class="hljs-variable">needRecord</span> <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br>List&lt;Record&gt; deleteR = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;<br>	List&lt;Record&gt; l = dao.selectRecordByTime(page,pageSize)<span class="hljs-comment">//按过期时间升序排列</span><br>	<span class="hljs-keyword">if</span>(l==<span class="hljs-literal">null</span> || l.size()==<span class="hljs-number">0</span>)&#123;<br>		<span class="hljs-comment">//积分不够</span><br>		<span class="hljs-keyword">break</span>;<br>	&#125;<br>	<span class="hljs-keyword">for</span>(Record r : l)&#123;<br>		<span class="hljs-keyword">if</span>(needRecord&lt;r.recore)&#123;<br>			<span class="hljs-comment">//拆分积分</span><br>			r(needRecord)<br>			r1(r.record - needRecord)<br>			<span class="hljs-comment">//r r1写入数据库</span><br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>		needRecord-=r.record;<br>		deleteR.add(r);<br>	&#125;<br>&#125;<br><span class="hljs-comment">//deleteR写入record_detail</span><br></code></pre></td></tr></table></figure>
+
+<p>积分消费解决了，但是又存在一个问题，在用户消费积分时刚好积分过期了该怎么办。我们将积分过期需要的操作使用消息队列进行异步处理，同时我们也可以引入redis锁住用户的积分，在用户消费积分时利用用户ID锁住用户的积分，这时候消费者应该拒绝任务，并将任务重新加入到消息队列中直到积分过期操作完成。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/">#Java</a>
+      
+        <a href="/tags/MySQL/">#MySQL</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>常见的附近的人功能如何实现</div>
+      <div>http://mission00.github.io/2022/11/19/2022-11-19-每日业务办理得积分/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>小雄不是大雄</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/20/2022-11-20-%E6%89%8B%E5%86%99Spring%EF%BC%881%EF%BC%89/" title="手写Spring（1）实现一个简单的Bean容器">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">手写Spring（1）实现一个简单的Bean容器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/19/2022-11-19-%E4%BD%BF%E7%94%A8redis%E7%9A%84geohash%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA/" title="redis如何实现附近的人">
+                        <span class="hidden-mobile">redis如何实现附近的人</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
